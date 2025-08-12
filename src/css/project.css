@@ -1,0 +1,63 @@
+.project-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-border);
+}
+.project-header .btns {
+  gap: 0.2rem;
+}
+.project-header .btns span {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: transform 200ms ease;
+}
+.project-header .btns span:hover {
+  background-color: var(--color-foreground);
+  transform: rotate(30deg);
+}
+.project-todo-list {
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+.project-todo:first-child {
+  justify-content: center;
+  gap: 0.2rem;
+}
+.project-todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--color-border);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem 0.3rem 0 0;
+  font-size: 1rem;
+}
+.project-todo:hover {
+  background: var(--color-foreground);
+}
+.todo-btns {
+  font-size: 1.2rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.todo-btns > span {
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 200ms ease;
+}
+.todo-btns > span:hover {
+  background-color: var(--color-background);
+  transform: rotate(15deg);
+}
+@media only screen and (max-width: 1200px) {
+  .project-header {
+    padding: 0.5rem;
+  }
+  .project-todo-list {
+    padding: 0.5rem;
+  }
+}

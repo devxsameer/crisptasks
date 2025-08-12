@@ -1,0 +1,14 @@
+.content {
+  color: var(--color-text);
+}
+.content .content-title {
+  height: 50px;
+  display: flex;
+  line-height: 50px;
+  align-items: center;
+}
+.content .content-title h2 {
+  font-weight: 600;
+  text-transform: capitalize;
+  display: flex;
+}

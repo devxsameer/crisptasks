@@ -1,0 +1,258 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+/* CSS Variables */
+:root {
+  --color-primary: #df1a3e;
+  --color-primary-light: #ffc7ca;
+  --color-background: white;
+  --color-foreground: rgb(244, 244, 244);
+  --color-foreground-darker: rgb(213, 213, 213);
+  --color-text: rgb(34, 34, 34);
+  --color-text-light: rgb(86, 86, 86);
+  --color-text-high: rgb(15, 15, 15);
+  --color-border: rgb(208, 208, 208);
+  accent-color: var(--color-primary);
+}
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+  width: 100%;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+  line-height: 1.5;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+li {
+  list-style: none;
+}
+.btns {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5em 0;
+}
+.btn {
+  border: none;
+  padding: 0.4em 0.8em;
+  border-radius: 0.4em;
+  font-size: 1rem;
+  background-color: var(--color-foreground-darker);
+  border: 2px solid var(--color-foreground-darker);
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: var(--color-background);
+}
+.btn.btn-primary {
+  background-color: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.btn.btn-primary:hover {
+  background: var(--color-background);
+}
+fieldset {
+  border-radius: 0.2em;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+}
+body {
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--color-text);
+}
+.main-container {
+  background-color: var(--color-background);
+  display: grid;
+  height: 100vh;
+  width: 100%;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 50px 200px 1fr;
+  grid-template-areas:
+    "header header header"
+    "nav nav main";
+}
+.navbar {
+  grid-area: nav;
+}
+.content {
+  grid-area: main;
+}
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  grid-area: header;
+  height: 50px;
+  display: flex;
+  border-bottom: 2px solid var(--color-border);
+  align-items: center;
+  padding: 0 1rem;
+}
+.header h2 {
+  line-height: 50px;
+  font-weight: 600;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.header h2 .icon {
+  color: var(--color-primary);
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: var(--color-background);
+  border-right: 2px solid var(--color-border);
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.2rem;
+}
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+.navbar .navbar-projects-list,
+.navbar .navbar-func-list,
+.navbar .navbar-access-list {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.2rem;
+}
+.navbar .navbar-access-list {
+  padding-top: 0.3rem;
+}
+.navbar .navbar-projects-list {
+  padding-bottom: 0.2rem;
+}
+.navbar li {
+  padding: 0.5rem;
+  display: inline-flex;
+  gap: 0.3rem;
+  flex-flow: row nowrap;
+  align-items: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.navbar li.active-section {
+  background-color: var(--color-foreground);
+}
+.navbar li:hover {
+  background-color: var(--color-foreground);
+}
+.navbar-logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  height: 50px;
+}
+.navbar-logo > .hamburger {
+  display: none;
+  border-radius: 10%;
+  padding: 0.2rem;
+}
+.navbar-logo > .hamburger:hover {
+  background-color: var(--color-background);
+}
+.navbar-logo span {
+  font-weight: 500;
+}
+@media only screen and (max-width: 1200px) {
+  .header {
+    padding: 0.5rem;
+  }
+  .navbar {
+    grid-column: 1/2;
+    padding: 0.5rem;
+    transition: all 100ms ease-in-out;
+  }
+  .navbar-logo > span.hamburger {
+    display: initial;
+  }
+  .navbar-logo {
+    justify-content: center;
+  }
+  .main-container.navbar-changed .navbar .navbar-projects,
+  .main-container.navbar-changed .navbar .navbar-func {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  .content {
+    grid-column: 2/4;
+  }
+  .navbar-to-hide {
+    display: none;
+  }
+  .main-container.navbar-changed .navbar-to-hide {
+    display: inherit;
+  }
+  .main-container.navbar-changed .navbar-logo {
+    justify-content: space-between;
+  }
+  .main-container.navbar-changed .navbar {
+    width: 250px;
+  }
+}

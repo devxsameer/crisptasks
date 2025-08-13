@@ -59,6 +59,8 @@ h6 {
 p {
   text-wrap: pretty;
   line-height: 1.5;
+  color: var(--color-text-light);
+  margin-bottom: 1em;
 }
 h1,
 h2,
@@ -121,6 +123,7 @@ body {
   display: grid;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
   grid-template-rows: 50px 1fr;
   grid-template-columns: 50px 200px 1fr;
   grid-template-areas:
@@ -162,6 +165,7 @@ body {
   top: 0;
   bottom: 0;
   left: 0;
+  overflow: hidden;
   overflow-y: auto;
   background-color: var(--color-background);
   border-right: 2px solid var(--color-border);
@@ -169,6 +173,7 @@ body {
   display: flex;
   flex-flow: column nowrap;
   gap: 1.2rem;
+  z-index: 101;
 }
 .navbar::-webkit-scrollbar {
   display: none;
@@ -176,16 +181,17 @@ body {
 .navbar .navbar-projects-list,
 .navbar .navbar-func-list,
 .navbar .navbar-access-list {
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   display: flex;
+  min-width: 200px;
   flex-flow: column nowrap;
   gap: 0.2rem;
 }
 .navbar .navbar-access-list {
-  padding-top: 0.3rem;
+  padding-bottom: 0.4rem;
 }
 .navbar .navbar-projects-list {
-  padding-bottom: 0.2rem;
+  padding-top: 0;
 }
 .navbar li {
   padding: 0.5rem;
@@ -213,8 +219,10 @@ body {
   display: none;
   border-radius: 10%;
   padding: 0.2rem;
+  transition: all 0.5s ease-in-out;
 }
 .navbar-logo > .hamburger:hover {
+  transform: rotate(90deg);
   background-color: var(--color-background);
 }
 .navbar-logo span {
@@ -227,7 +235,7 @@ body {
   .navbar {
     grid-column: 1/2;
     padding: 0.5rem;
-    transition: all 100ms ease-in-out;
+    transition: all 300ms ease-out;
   }
   .navbar-logo > span.hamburger {
     display: initial;

@@ -1,4 +1,3 @@
-import Events from "./events.js";
 const LocalStorage = (() => {
   let localStorageData = [
     {
@@ -95,14 +94,17 @@ const LocalStorage = (() => {
     localStorage.setItem("crispTasks", JSON.stringify(data));
     localStorageData = data;
   }
-  Events.on("document:loaded", () => {
+  function getData() {
     if (localStorage.getItem("crispTasks")) {
       localStorageData = JSON.parse(localStorage.getItem("crispTasks"));
     } else {
       setData(localStorageData);
     }
-    Events.emit("ls:data:loaded", localStorageData);
-  });
-  Events.on("data:changed", setData);
+    return localStorageData;
+  }
+  return {
+    setData,
+    getData,
+  };
 })();
 export default LocalStorage;

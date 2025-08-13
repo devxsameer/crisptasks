@@ -1,28 +1,28 @@
-import Events from "./events";
+import projectList from "./projectsList";
+import UI from "./ui";
+import "./css/dialog.css";
 
-const dialog = (() => {
+const Dialog = (function () {
+  const mainContainer = document.querySelector(".main-container");
   const dialogContainer = document.querySelector(".dialog");
   const confirmDialogContainer = document.querySelector(".confirm-dialog");
-  const mainContainer = document.querySelector(".main-container");
   const dialogForm = document.querySelector(".dialog form");
   const dialogHeadingSpan = document.querySelector(
     ".dialog .dialog-header span"
   );
   const confirmBtn = document.querySelector(".confirm-btn");
-  const dashboardNavbarBtn = document.querySelector("[data-id='dashboard']");
-  // Function to handle Form dialog
+  // Function to render Form dialog
   function renderDialog(mode) {
     dialogContainer.classList.remove("for-todo");
     setInputDate();
     if (mode === "Project") {
       dialogHeadingSpan.innerText = "Add New Project";
+      dialogForm.dataset.id = "Project";
     } else if (mode == "Todo") {
       dialogHeadingSpan.innerText = "Add New Todo";
       dialogContainer.classList.add("for-todo");
+      dialogForm.dataset.id = "Todo";
     }
-    dialogForm.addEventListener("submit", (e) => {
-      handleSubmit(e, mode);
-    });
     dialogContainer.classList.add("active");
   }
   function closeDialog() {
@@ -35,31 +35,34 @@ const dialog = (() => {
     dateInput.value = today;
   }
   // Function to handle form submission
-  function handleSubmit(e, mode) {
+  function handleSubmit(e) {
     e.preventDefault();
+    let mode = dialogForm.dataset.id;
     const formData = new FormData(dialogForm);
     const data = Object.fromEntries(formData.entries());
     if (data.title.length >= 5 && data.description.length >= 10) {
       if (mode == "Project") {
-        Events.emit("project:added", data);
+        projectList.addProject(data);
+        UI.renderNavbarList();
       } else if (mode == "Todo") {
-        Events.emit("project:todo:added", [mainContainer.dataset.id, data]);
-        Events.emit("section:to:refresh");
+        projectList.addTodoInProject([mainContainer.dataset.id, data]);
+        UI.renderSection(mainContainer.dataset.id);
       }
       dialogForm.reset();
       closeDialog();
     }
   }
-  // Function to handle confirm dialog
-  function renderConfirmDialog([mode, id]) {
+  // Function to Handle confirm dialog
+  function handleConfirmDialog([mode, id]) {
     confirmBtn.addEventListener("click", () => {
       const currId = mainContainer.dataset.id;
       if (mode == "ProjectDelete") {
-        Events.emit("section:to:change", "dashboard");
-        Events.emit("project:deleted", currId);
-      } else {
-        Events.emit("project:todo:deleted", [currId, id]);
-        Events.emit("section:to:refresh");
+        UI.handleSectionChange("dashboard");
+        projectList.deleteProject(currId);
+        UI.renderNavbarList();
+      } else if (mode == "TodoDelete") {
+        projectList.deleteTodoFromProject([currId, id]);
+        UI.renderSection(mainContainer.dataset.id);
       }
       closeConfirmDialog();
     });
@@ -69,8 +72,12 @@ const dialog = (() => {
   function closeConfirmDialog() {
     confirmDialogContainer.classList.remove("active");
   }
-  Events.on("dialog:form:open", renderDialog);
-  Events.on("dialog:form:close", closeDialog);
-  Events.on("dialog:confirm:open", renderConfirmDialog);
-  Events.on("dialog:confirm:close", closeConfirmDialog);
+  return {
+    renderDialog,
+    closeDialog,
+    handleConfirmDialog,
+    closeConfirmDialog,
+    handleSubmit,
+  };
 })();
+export default Dialog;

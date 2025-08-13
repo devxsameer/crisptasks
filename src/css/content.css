@@ -1,5 +1,11 @@
 .content {
   color: var(--color-text);
+  display: flex;
+  flex-flow: row nowrap;
+  position: relative;
+}
+.content > * {
+  flex: 1;
 }
 .content .content-title {
   height: 50px;

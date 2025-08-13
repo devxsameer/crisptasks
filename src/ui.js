@@ -1,7 +1,23 @@
-import Events from "./events";
-import "./dialog.js";
-import "./pages/project.js";
-import "./pages/dashboard.js";
+import projectList from "./projectsList.js";
+import renderDashboard from "./components/dashboard.js";
+import renderProject from "./components/project.js";
+// Importing Icons
+import {
+  createIcons,
+  Bolt,
+  SquarePen,
+  Trash,
+  Plus,
+  Trash2,
+  Menu,
+  LaptopMinimalCheck,
+  CalendarClock,
+  ListTodo,
+  CalendarCheck2,
+  LayoutDashboard,
+  OctagonAlert,
+  X,
+} from "lucide";
 
 const UI = (() => {
   // DOM Variables
@@ -9,46 +25,68 @@ const UI = (() => {
   const navbarList = document.querySelector(".navbar-projects-list");
 
   // Rendering Navbar Projects
-  function renderNavbarList(data) {
+  function renderNavbarList() {
     navbarList.innerHTML = "";
+    const data = projectList.getProjectList();
     data.forEach((project) => {
       const listElement = document.createElement("li");
       listElement.classList.add("navbar-projects-item");
-      listElement.setAttribute("data-id", project.id);
+      listElement.dataset.nav = project.id;
       listElement.innerText = project.title;
       navbarList.appendChild(listElement);
     });
+    document
+      .querySelector(`[data-nav="${mainContainer.dataset.id}"]`)
+      .classList.add("active-section");
   }
   // Function to handleChangeOfSection
   function handleSectionChange(id) {
     const currActiveSection = document.querySelector(".active-section");
-    if (currActiveSection.dataset.id != id) {
-      const toActiveSection = document.querySelector(`[data-id="${id}"]`);
-      toActiveSection.classList.add("active-section");
+    if (currActiveSection.dataset.nav != id) {
+      const toActiveSection = document.querySelector(`[data-nav="${id}"]`);
       currActiveSection.classList.remove("active-section");
-      mainContainer.setAttribute("data-id", id);
-      renderRespectiveSection(id);
-      Events.emit("navbar:to:change");
+      toActiveSection.classList.add("active-section");
+      mainContainer.dataset.id = id;
+      renderSection(id);
+      changeNavbar();
+    } else {
+      changeNavbar();
     }
   }
   // function for rendering appropriate section
-  function renderRespectiveSection(currId = mainContainer.dataset.id) {
-    if (currId == "dashboard") {
-      Events.emit("render:dashboard");
-    } else if (currId == "today") {
-      Events.emit("render:today");
-    } else if (currId == "upcoming") {
-      Events.emit("render:upcoming");
-    } else if (currId == "completed") {
-      Events.emit("render:completed");
-    } else {
-      Events.emit("render:project", currId);
-    }
+  function renderSection(currId) {
+    if (currId == "dashboard") renderDashboard();
+    else if (currId == "today") console.log("pokemon");
+    else if (currId == "upcoming") console.log("pokemon");
+    else if (currId == "completed") console.log("pokemon");
+    else renderProject(currId);
+    createIcons({
+      icons: {
+        Bolt,
+        SquarePen,
+        Trash,
+        Plus,
+        Trash2,
+        Menu,
+        LaptopMinimalCheck,
+        CalendarClock,
+        ListTodo,
+        CalendarCheck2,
+        LayoutDashboard,
+        OctagonAlert,
+        X,
+      },
+    });
   }
-  Events.on("section:to:change", handleSectionChange);
-  Events.on("section:to:refresh", renderRespectiveSection);
-  Events.on("projects:changed", renderNavbarList);
-  Events.on("navbar:to:change", () => {
+  // function to change navbar
+  function changeNavbar() {
     mainContainer.classList.toggle("navbar-changed");
-  });
+  }
+  return {
+    renderNavbarList,
+    handleSectionChange,
+    renderSection,
+    changeNavbar,
+  };
 })();
+export default UI;

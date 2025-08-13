@@ -14,7 +14,7 @@
 .dialog.active,
 .confirm-dialog.active {
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 100;
+  z-index: 1000;
 }
 .dialog-box,
 .confirm-dialog-box {

@@ -1,26 +1,22 @@
-import Events from "../events";
-import "../css/project.css";
 import projectList from "../projectsList";
-import { createIcons, Bolt, SquarePen, Trash, Plus, Trash2 } from "lucide";
-
-(() => {
+import "../css/project.css";
+function renderProject(id) {
   const contentContainer = document.querySelector(".content");
-  function renderProject(id) {
-    const project = projectList
-      .getProjectList()
-      .find((project) => project.id === id);
-    const projectTodoList = document.createElement("ul");
-    projectTodoList.classList.add("project-todo-list");
-    projectTodoList.innerHTML += /*html */ `
+  const project = projectList
+    .getProjectList()
+    .find((project) => project.id === id);
+  const projectTodoList = document.createElement("ul");
+  projectTodoList.classList.add("project-todo-list");
+  projectTodoList.innerHTML += /*html */ `
         <li class="project-todo add-new-todo">
           <span class="btns">
               <i data-lucide="plus" class="icon"></i>
           </span>
           <div class="todo-title">Add New Todo</div>
         </li>`;
-    project.todoList.forEach((todo) => {
-      projectTodoList.innerHTML += /*html */ `
-        <li class="project-todo">
+  project.todoList.forEach((todo) => {
+    projectTodoList.innerHTML += /*html */ `
+        <li class="project-todo" data-id="${todo.id}">
           <div class="todo-title">
             ${todo.title}
           </div>
@@ -34,8 +30,8 @@ import { createIcons, Bolt, SquarePen, Trash, Plus, Trash2 } from "lucide";
           </div>
         </li>
         `;
-    });
-    const projectHtml = /* html */ `
+  });
+  const projectHtml = /* html */ `
         <div class="project">
             <div class="project-main">
               <div class="project-header">
@@ -51,21 +47,12 @@ import { createIcons, Bolt, SquarePen, Trash, Plus, Trash2 } from "lucide";
                       <i data-lucide="trash-2"></i>
                     </span>
                   </div>
-                </div>
-                ${projectTodoList.outerHTML}
               </div>
+              ${projectTodoList.outerHTML}
             </div>
+        </div>
+        <div class="todo-details-section"></div>
             `;
-    contentContainer.innerHTML = projectHtml;
-    createIcons({
-      icons: {
-        Bolt,
-        SquarePen,
-        Trash,
-        Plus,
-        Trash2,
-      },
-    });
-  }
-  Events.on("render:project", renderProject);
-})();
+  contentContainer.innerHTML = projectHtml;
+}
+export default renderProject;

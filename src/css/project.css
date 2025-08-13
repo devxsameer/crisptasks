@@ -36,7 +36,8 @@
   border-radius: 0.3rem 0.3rem 0 0;
   font-size: 1rem;
 }
-.project-todo:hover {
+.project-todo:hover,
+.project-todo.active {
   background: var(--color-foreground);
 }
 .todo-btns {

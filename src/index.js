@@ -1,61 +1,59 @@
 // Importing CSS
 import "./css/style.css";
 import "./css/content.css";
-import "./css/dialog.css";
 // Importing ESM
-import Events from "./events.js";
-import "./icons.js";
-import "./classes.js";
-import "./localstorage.js";
-import "./projectsList.js";
-import "./ui.js";
+import projectList from "./projectsList.js";
+import UI from "./ui.js";
+import Dialog from "./dialog.js";
+import TodoDetails from "./components/todo.js";
+
 // DOM Load Events
 window.addEventListener("DOMContentLoaded", () => {
   //  DOM Variables
   const dialogBox = document.querySelector(".dialog-box");
   const confirmDialogBox = document.querySelector(".confirm-dialog-box");
+  const dialogForm = document.querySelector(".dialog form");
+  // Loading data
+  projectList.setProjectsList();
+  UI.renderNavbarList(projectList.getProjectList());
+  UI.renderSection("dashboard");
   // Adding Event Listeners
-  Events.emit("document:loaded");
-  Events.emit("section:to:refresh");
+  dialogForm.addEventListener("submit", (e) => {
+    Dialog.handleSubmit(e);
+  });
   document.body.addEventListener("click", (e) => {
-    if (!dialogBox.contains(e.target) || e.target.closest(".cancel-btn")) {
-      Events.emit("dialog:form:close");
-    }
-    if (
-      !confirmDialogBox.contains(e.target) ||
-      e.target.closest(".cancel-btn")
-    ) {
-      Events.emit("dialog:confirm:close");
-    }
-    if (e.target.closest(".hamburger")) {
-      Events.emit("navbar:to:change");
-    }
-    if (e.target.closest(".create-new-btn")) {
-      Events.emit("dialog:form:open", "Project");
-    }
-    if (e.target.closest(".add-new-todo")) {
-      Events.emit("dialog:form:open", "Todo");
-    }
-    if (e.target.closest(".project-delete")) {
-      Events.emit("dialog:confirm:open", ["ProjectDelete"]);
-    }
-    if (e.target.closest(".todo-delete-btn")) {
-      Events.emit("dialog:confirm:open", [
+    // on clicking hamburger
+    if (e.target.closest(".hamburger")) UI.changeNavbar();
+    // on clicking cancel btn or outer area
+    if (!dialogBox.contains(e.target) || e.target.closest(".cancel-btn"))
+      Dialog.closeDialog();
+    if (!confirmDialogBox.contains(e.target) || e.target.closest(".cancel-btn"))
+      Dialog.closeConfirmDialog();
+    // for rendering dialog
+    if (e.target.closest(".create-new-btn")) Dialog.renderDialog("Project");
+    if (e.target.closest(".add-new-todo")) Dialog.renderDialog("Todo");
+    // for rendering confirm dialog
+    if (e.target.closest(".project-delete"))
+      Dialog.handleConfirmDialog(["ProjectDelete", null]);
+    if (e.target.closest(".todo-delete-btn"))
+      Dialog.handleConfirmDialog([
         "TodoDelete",
         e.target.closest(".todo-delete-btn").dataset.id,
       ]);
-    }
-    if (e.target.closest(".navbar-projects-item")) {
-      Events.emit(
-        "section:to:change",
-        e.target.closest(".navbar-projects-item").dataset.id
+    // for changing section
+    if (e.target.closest(".navbar-projects-item"))
+      UI.handleSectionChange(
+        e.target.closest(".navbar-projects-item").dataset.nav
       );
+    if (e.target.closest(".navbar-func-item"))
+      UI.handleSectionChange(e.target.closest(".navbar-func-item").dataset.nav);
+    // for rendering todo in separate section
+    if (e.target.closest(".project-todo[data-id]")) {
+      if (!e.target.closest(".todo-delete-btn"))
+        TodoDetails.renderDetails(
+          e.target.closest(".project-todo[data-id]").dataset.id
+        );
     }
-    if (e.target.closest(".navbar-func-item")) {
-      Events.emit(
-        "section:to:change",
-        e.target.closest(".navbar-func-item").dataset.id
-      );
-    }
+    if (e.target.closest(".details-close-btn")) TodoDetails.clearDetails();
   });
 });

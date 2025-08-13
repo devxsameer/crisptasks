@@ -1,10 +1,46 @@
-import Events from "./events.js";
-import { Project, Todo } from "./classes.js";
-
+import LS from "./localstorage.js";
+class Todo {
+  constructor({
+    title,
+    description,
+    dueDate,
+    priority,
+    notes = "",
+    checkList = [],
+    id = crypto.randomUUID(),
+  }) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.notes = notes;
+    this.checkList = checkList;
+    this.id = id;
+  }
+}
+class Project {
+  constructor({ id, title, description, todoList }) {
+    this.id = id ? id : crypto.randomUUID();
+    this.title = title;
+    this.description = description;
+    if (!todoList) {
+      this.todoList = [];
+    } else {
+      this.todoList = todoList;
+    }
+  }
+  addTodo(todo) {
+    this.todoList.unshift(todo);
+  }
+  removeTodo(id) {
+    this.todoList = this.todoList.filter((todo) => todo.id != id);
+  }
+}
 const projectList = (function () {
   let list;
-  function setProjectsList(data) {
+  function setProjectsList() {
     list = [];
+    const data = LS.getData();
     data.forEach(({ title, description, id, todoList }) => {
       let currProject = new Project({ title, description, id });
       todoList.forEach((todo) => {
@@ -12,37 +48,42 @@ const projectList = (function () {
       });
       list.push(currProject);
     });
-    Events.emit("data:changed", list);
-    Events.emit("projects:changed", list);
   }
   function getProjectList() {
     return list;
   }
   function addProject(data) {
-    list.push(new Project(data));
-    Events.emit("data:changed", list);
-    Events.emit("projects:changed", list);
+    list.unshift(new Project(data));
+    LS.setData(list);
+  }
+  function getProject(id) {
+    return list.find((project) => project.id == id);
   }
   function deleteProject(id) {
     list = list.filter((project) => project.id != id);
-    Events.emit("data:changed", list);
-    Events.emit("projects:changed", list);
+    LS.setData(list);
   }
   function deleteTodoFromProject([projectId, todoId]) {
     list.find((i) => i.id === projectId).removeTodo(todoId);
-    Events.emit("data:changed", list);
+    LS.setData(list);
   }
   function addTodoInProject([projectId, data]) {
     list.find((i) => i.id === projectId).addTodo(new Todo(data));
-    Events.emit("data:changed", list);
+    LS.setData(list);
   }
-  Events.on("ls:data:loaded", setProjectsList);
-  Events.on("project:todo:added", addTodoInProject);
-  Events.on("project:todo:deleted", deleteTodoFromProject);
-  Events.on("project:added", addProject);
-  Events.on("project:deleted", deleteProject);
+  function getTodoFromProject(projectId, todoId) {
+    const currProject = list.find((project) => project.id == projectId);
+    return currProject.todoList.find((todo) => todo.id == todoId);
+  }
   return {
     getProjectList,
+    setProjectsList,
+    addProject,
+    deleteProject,
+    getProject,
+    deleteTodoFromProject,
+    addTodoInProject,
+    getTodoFromProject,
   };
 })();
 export default projectList;

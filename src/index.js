@@ -41,12 +41,14 @@ window.addEventListener("DOMContentLoaded", () => {
       );
     // for rendering confirm dialog
     if (e.target.closest(".project-delete"))
-      Dialog.handleConfirmDialog(["ProjectDelete", null]);
+      Dialog.renderConfirmDialog("ProjectDelete");
     if (e.target.closest(".todo-delete-btn"))
-      Dialog.handleConfirmDialog([
+      Dialog.renderConfirmDialog(
         "TodoDelete",
-        e.target.closest(".todo-delete-btn").dataset.id,
-      ]);
+        e.target.closest(".todo-delete-btn").dataset.id
+      );
+    // for clicking confirm btn
+    if (e.target.closest(".confirm-btn")) Dialog.handleConfirm();
     // for changing section
     if (e.target.closest(".navbar-projects-item"))
       UI.handleSectionChange(

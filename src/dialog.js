@@ -10,7 +10,6 @@ const Dialog = (function () {
   const dialogHeadingSpan = document.querySelector(
     ".dialog .dialog-header span"
   );
-  const confirmBtn = document.querySelector(".confirm-btn");
   // Function to render Form dialog
   function renderDialog(mode, todoId) {
     dialogContainer.classList.remove("for-todo");
@@ -74,20 +73,25 @@ const Dialog = (function () {
     }
   }
   // Function to Handle confirm dialog
-  function handleConfirmDialog([mode, id]) {
-    confirmBtn.addEventListener("click", () => {
-      const currId = mainContainer.dataset.id;
-      if (mode == "ProjectDelete") {
-        UI.handleSectionChange("dashboard");
-        projectList.deleteProject(currId);
-        UI.renderNavbarList();
-      } else if (mode == "TodoDelete") {
-        projectList.deleteTodoFromProject(currId, id);
-        UI.renderSection(mainContainer.dataset.id);
-      }
-      closeConfirmDialog();
-    });
+  function renderConfirmDialog(mode, id) {
+    confirmDialogContainer.dataset.id = mode;
+    confirmDialogContainer.dataset.todoId = id;
     confirmDialogContainer.classList.add("active");
+  }
+  //function to handle confirm
+  function handleConfirm() {
+    const currId = mainContainer.dataset.id;
+    const mode = confirmDialogContainer.dataset.id;
+    const id = confirmDialogContainer.dataset.todoId;
+    if (mode == "ProjectDelete") {
+      UI.handleSectionChange("dashboard");
+      projectList.deleteProject(currId);
+      UI.renderNavbarList();
+    } else if (mode == "TodoDelete") {
+      projectList.deleteTodoFromProject(currId, id);
+      UI.renderSection(mainContainer.dataset.id);
+    }
+    closeConfirmDialog();
   }
   // Function to close confirm dialog
   function closeConfirmDialog() {
@@ -96,9 +100,10 @@ const Dialog = (function () {
   return {
     renderDialog,
     closeDialog,
-    handleConfirmDialog,
+    renderConfirmDialog,
     closeConfirmDialog,
     handleSubmit,
+    handleConfirm,
   };
 })();
 export default Dialog;

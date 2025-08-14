@@ -141,7 +141,6 @@ body {
   position: sticky;
   top: 0;
   grid-area: header;
-  height: 50px;
   display: flex;
   border-bottom: 2px solid var(--color-border);
   align-items: center;
@@ -222,18 +221,22 @@ body {
   transition: all 0.5s ease-in-out;
 }
 .navbar-logo > .hamburger:hover {
-  transform: rotate(90deg);
+  transform: rotate(10deg);
   background-color: var(--color-background);
 }
 .navbar-logo span {
   font-weight: 500;
 }
 @media only screen and (max-width: 1200px) {
+  .main-container {
+    grid-template-areas:
+      "header header header"
+      "nav main main";
+  }
   .header {
     padding: 0.5rem;
   }
   .navbar {
-    grid-column: 1/2;
     padding: 0.5rem;
     transition: all 300ms ease-out;
   }
@@ -247,9 +250,6 @@ body {
   .main-container.navbar-changed .navbar .navbar-func {
     display: flex;
     flex-flow: column nowrap;
-  }
-  .content {
-    grid-column: 2/4;
   }
   .navbar-to-hide {
     display: none;

@@ -27,7 +27,7 @@ const UI = (() => {
   // Rendering Navbar Projects
   function renderNavbarList() {
     navbarList.innerHTML = "";
-    const data = projectList.getProjectList();
+    const data = projectList.getProjectList().toReversed();
     data.forEach((project) => {
       const listElement = document.createElement("li");
       listElement.classList.add("navbar-projects-item");

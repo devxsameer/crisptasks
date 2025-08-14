@@ -32,6 +32,13 @@ window.addEventListener("DOMContentLoaded", () => {
     // for rendering dialog
     if (e.target.closest(".create-new-btn")) Dialog.renderDialog("Project");
     if (e.target.closest(".add-new-todo")) Dialog.renderDialog("Todo");
+    if (e.target.closest(".project-settings"))
+      Dialog.renderDialog("ProjectEdit");
+    if (e.target.closest(".todo-edit-btn"))
+      Dialog.renderDialog(
+        "TodoEdit",
+        e.target.closest(".todo-edit-btn").dataset.id
+      );
     // for rendering confirm dialog
     if (e.target.closest(".project-delete"))
       Dialog.handleConfirmDialog(["ProjectDelete", null]);
@@ -49,7 +56,10 @@ window.addEventListener("DOMContentLoaded", () => {
       UI.handleSectionChange(e.target.closest(".navbar-func-item").dataset.nav);
     // for rendering todo in separate section
     if (e.target.closest(".project-todo[data-id]")) {
-      if (!e.target.closest(".todo-delete-btn"))
+      if (
+        !e.target.closest(".todo-delete-btn") &&
+        !e.target.closest(".todo-edit-btn")
+      )
         TodoDetails.renderDetails(
           e.target.closest(".project-todo[data-id]").dataset.id
         );

@@ -12,16 +12,26 @@ const Dialog = (function () {
   );
   const confirmBtn = document.querySelector(".confirm-btn");
   // Function to render Form dialog
-  function renderDialog(mode) {
+  function renderDialog(mode, todoId) {
     dialogContainer.classList.remove("for-todo");
+    mainContainer.dataset.todoId = "";
     setInputDate();
     if (mode === "Project") {
       dialogHeadingSpan.innerText = "Add New Project";
       dialogForm.dataset.id = "Project";
-    } else if (mode == "Todo") {
-      dialogHeadingSpan.innerText = "Add New Todo";
+    } else if (mode == "ProjectEdit") {
+      dialogHeadingSpan.innerText = "Edit Project Details";
+      dialogForm.dataset.id = "ProjectEdit";
+    } else if (mode == "Todo" || mode == "TodoEdit") {
       dialogContainer.classList.add("for-todo");
-      dialogForm.dataset.id = "Todo";
+      if (mode == "Todo") {
+        dialogHeadingSpan.innerText = "Add New Todo";
+        dialogForm.dataset.id = "Todo";
+      } else {
+        dialogHeadingSpan.innerText = "Edit Todo";
+        dialogForm.dataset.id = "EditTodo";
+        mainContainer.dataset.todoId = todoId;
+      }
     }
     dialogContainer.classList.add("active");
   }
@@ -44,8 +54,19 @@ const Dialog = (function () {
       if (mode == "Project") {
         projectList.addProject(data);
         UI.renderNavbarList();
+      } else if (mode == "ProjectEdit") {
+        projectList.editProject(mainContainer.dataset.id, data);
+        UI.renderSection(mainContainer.dataset.id);
+        UI.renderNavbarList();
       } else if (mode == "Todo") {
-        projectList.addTodoInProject([mainContainer.dataset.id, data]);
+        projectList.addTodoInProject(mainContainer.dataset.id, data);
+        UI.renderSection(mainContainer.dataset.id);
+      } else {
+        projectList.editTodoInProject(
+          mainContainer.dataset.id,
+          mainContainer.dataset.todoId,
+          data
+        );
         UI.renderSection(mainContainer.dataset.id);
       }
       dialogForm.reset();
@@ -61,7 +82,7 @@ const Dialog = (function () {
         projectList.deleteProject(currId);
         UI.renderNavbarList();
       } else if (mode == "TodoDelete") {
-        projectList.deleteTodoFromProject([currId, id]);
+        projectList.deleteTodoFromProject(currId, id);
         UI.renderSection(mainContainer.dataset.id);
       }
       closeConfirmDialog();

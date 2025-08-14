@@ -14,7 +14,10 @@ function renderProject(id) {
           </span>
           <div class="todo-title">Add New Todo</div>
         </li>`;
-  project.todoList.forEach((todo) => {
+  project.todoList.toReversed(
+
+    
+  ).forEach((todo) => {
     projectTodoList.innerHTML += /*html */ `
         <li class="project-todo" data-id="${todo.id}">
           <div class="todo-title">

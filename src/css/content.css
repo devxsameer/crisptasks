@@ -1,11 +1,13 @@
 .content {
   color: var(--color-text);
   display: flex;
+  max-width: 100%;
   flex-flow: row nowrap;
   position: relative;
 }
 .content > * {
   flex: 1;
+  max-width: 100%;
 }
 .content .content-title {
   height: 50px;

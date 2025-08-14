@@ -1,6 +1,12 @@
+.project {
+  display: flex;
+  flex-flow: column nowrap;
+  overflow-y: auto;
+}
 .project-header {
   padding: 1rem;
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--color-border);
@@ -29,10 +35,15 @@
 }
 .project-todo {
   display: flex;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 1em;
   border-bottom: 2px solid var(--color-border);
   padding: 0.2rem 0.5rem;
+  word-wrap: break-word; /* legacy but still works */
+  overflow-wrap: break-word; /* modern standard */
+  white-space: normal;
   border-radius: 0.3rem 0.3rem 0 0;
   font-size: 1rem;
 }

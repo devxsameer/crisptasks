@@ -14,7 +14,7 @@
 .todo-details {
   display: flex;
   height: 100%;
-  min-width: 400px;
+  min-width: 200px;
   flex-flow: column nowrap;
   padding: 1rem;
   justify-content: stretch;

@@ -34,11 +34,16 @@ window.addEventListener("DOMContentLoaded", () => {
     if (e.target.closest(".add-new-todo")) Dialog.renderDialog("Todo");
     if (e.target.closest(".project-settings"))
       Dialog.renderDialog("ProjectEdit");
-    if (e.target.closest(".todo-edit-btn"))
+    if (e.target.closest(".todo-edit-btn")) {
       Dialog.renderDialog(
         "TodoEdit",
         e.target.closest(".todo-edit-btn").dataset.id
       );
+    }
+    // For checklist in dialog
+    if (e.target.closest(".add-to-checklist-btn")) Dialog.addToChecklist();
+    if (e.target.closest(".delete-from-checklist-btn"))
+      e.target.closest(".check-list-item").remove();
     // for rendering confirm dialog
     if (e.target.closest(".project-delete"))
       Dialog.renderConfirmDialog("ProjectDelete");

@@ -10,6 +10,7 @@ const Dialog = (function () {
   const dialogHeadingSpan = document.querySelector(
     ".dialog .dialog-header span"
   );
+  const checkListScreen = document.querySelector(".check-list-screen");
   // Function to render Form dialog
   function renderDialog(mode, todoId) {
     dialogContainer.classList.remove("for-todo");
@@ -21,21 +22,75 @@ const Dialog = (function () {
     } else if (mode == "ProjectEdit") {
       dialogHeadingSpan.innerText = "Edit Project Details";
       dialogForm.dataset.id = "ProjectEdit";
+      setDetails(mode);
     } else if (mode == "Todo" || mode == "TodoEdit") {
       dialogContainer.classList.add("for-todo");
+      checkListScreen.innerHTML = /*html*/ `
+            <li class="check-list-item">
+              <span>Completed?</span>
+              <span class="delete-from-checklist-btn">
+                  <i data-lucide="trash" class="icon"></i>
+              </span>
+            </li>`;
+      UI.refreshIcons();
       if (mode == "Todo") {
-        dialogHeadingSpan.innerText = "Add New Todo";
+        dialogHeadingSpan.innerText = "Add New Task";
         dialogForm.dataset.id = "Todo";
       } else {
-        dialogHeadingSpan.innerText = "Edit Todo";
+        dialogHeadingSpan.innerText = "Edit Task";
         dialogForm.dataset.id = "EditTodo";
+        setDetails(mode, todoId);
         mainContainer.dataset.todoId = todoId;
       }
     }
     dialogContainer.classList.add("active");
   }
   function closeDialog() {
+    dialogForm.reset();
     dialogContainer.classList.remove("active");
+  }
+  // function to set details
+  function setDetails(mode, todoId) {
+    let currData;
+    if (mode == "ProjectEdit") {
+      currData = projectList.getProject(mainContainer.dataset.id);
+      dialogForm;
+    } else {
+      currData = projectList.getTodoFromProject(
+        mainContainer.dataset.id,
+        todoId
+      );
+      dialogForm.priority.value = currData.priority;
+      dialogForm.dueDate.value = currData.dueDate;
+      dialogForm.notes.value = currData.notes;
+      checkListScreen.innerHTML = "";
+      currData.checkList.forEach((checkListItem) =>
+        createCheckListItem(checkListItem.task)
+      );
+      UI.refreshIcons();
+    }
+    dialogForm.title.value = currData.title;
+    dialogForm.description.value = currData.description;
+  }
+  function addToChecklist() {
+    const checkInput = document.querySelector("#dialog-check-input");
+    if (checkInput.value) {
+      createCheckListItem(checkInput.value);
+      UI.refreshIcons();
+      checkInput.value = "";
+    }
+  }
+  function createCheckListItem(value) {
+    const checkNode = document.createElement("li");
+    checkNode.classList.add("check-list-item");
+    const mainSpan = document.createElement("span");
+    mainSpan.innerText = value;
+    checkNode.append(mainSpan);
+    const deleteCheckBtn = document.createElement("span");
+    deleteCheckBtn.classList.add("delete-from-checklist-btn");
+    deleteCheckBtn.innerHTML += "<i data-lucide='trash' class='icon'></i>";
+    checkNode.append(deleteCheckBtn);
+    checkListScreen.append(checkNode);
   }
   // function to set current date in input type date
   function setInputDate() {
@@ -46,9 +101,19 @@ const Dialog = (function () {
   // Function to handle form submission
   function handleSubmit(e) {
     e.preventDefault();
+    const checkList = document.querySelectorAll(
+      ".check-list-item span:first-child"
+    );
     let mode = dialogForm.dataset.id;
     const formData = new FormData(dialogForm);
     const data = Object.fromEntries(formData.entries());
+    data.checkList = [];
+    if (checkList.length < 1) {
+      data.checkList.push({ task: "Completed?", done: false });
+    }
+    checkList.forEach((element) => {
+      data.checkList.push({ task: element.innerText, done: false });
+    });
     if (data.title.length >= 5 && data.description.length >= 10) {
       if (mode == "Project") {
         projectList.addProject(data);
@@ -103,6 +168,7 @@ const Dialog = (function () {
     renderConfirmDialog,
     closeConfirmDialog,
     handleSubmit,
+    addToChecklist,
     handleConfirm,
   };
 })();

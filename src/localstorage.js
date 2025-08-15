@@ -10,7 +10,11 @@ const LocalStorage = (() => {
           dueDate: "2025-08-12",
           priority: "Medium",
           notes: "Use Figma for better design collaboration.",
-          checkList: ["Choose color scheme", "Create layout", "Export assets"],
+          checkList: [
+            { task: "Choose color scheme", done: false },
+            { task: "Create layout", done: false },
+            { task: "Export assets", done: false },
+          ],
           id: crypto.randomUUID(),
         },
         {
@@ -21,9 +25,9 @@ const LocalStorage = (() => {
           priority: "High",
           notes: "Ensure it works on mobile, tablet, and desktop.",
           checkList: [
-            "Add background image",
-            "Add animation",
-            "Test responsiveness",
+            { task: "Add background image", done: false },
+            { task: "Add animation", done: false },
+            { task: "Test responsiveness", done: false },
           ],
           id: crypto.randomUUID(),
         },
@@ -35,9 +39,9 @@ const LocalStorage = (() => {
           priority: "Medium",
           notes: "Check for broken links before deploying.",
           checkList: [
-            "Build project",
-            "Push to GitHub",
-            "Enable Pages in settings",
+            { task: "Build project", done: false },
+            { task: "Push to GitHub", done: false },
+            { task: "Enable Pages in settings", done: false },
           ],
           id: crypto.randomUUID(),
         },
@@ -54,9 +58,9 @@ const LocalStorage = (() => {
           priority: "High",
           notes: "Follow modular JS structure.",
           checkList: [
-            "Create src folder",
-            "Add index.html",
-            "Link JS and CSS files",
+            { task: "Create src folder", done: false },
+            { task: "Add index.html", done: false },
+            { task: "Link JS and CSS files", done: false },
           ],
           id: crypto.randomUUID(),
         },
@@ -68,9 +72,9 @@ const LocalStorage = (() => {
           priority: "High",
           notes: "Validate inputs before adding.",
           checkList: [
-            "Create input form",
-            "Handle form submission",
-            "Render todo to DOM",
+            { task: "Create input form", done: false },
+            { task: "Handle form submission", done: false },
+            { task: "Render todo to DOM", done: false },
           ],
           id: crypto.randomUUID(),
         },
@@ -81,15 +85,16 @@ const LocalStorage = (() => {
           priority: "Medium",
           notes: "Convert todos array to JSON before saving.",
           checkList: [
-            "Save todos",
-            "Load todos",
-            "Test persistence after refresh",
+            { task: "Save todos", done: false },
+            { task: "Load todos", done: false },
+            { task: "Test persistence after refresh", done: false },
           ],
           id: crypto.randomUUID(),
         },
       ],
     },
   ];
+
   function setData(data) {
     localStorage.setItem("crispTasks", JSON.stringify(data));
     localStorageData = data;

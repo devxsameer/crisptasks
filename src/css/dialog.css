@@ -20,6 +20,8 @@
 .confirm-dialog-box {
   width: min(90vw, 500px);
   height: 0;
+  overflow-x: auto;
+  max-height: 90vh;
   background-color: var(--color-background);
   transition: all 100ms ease-in;
   border-radius: 0.5rem;
@@ -34,8 +36,10 @@
 .confirm-dialog-header span {
   font-weight: 600;
   font-size: 1.5rem;
-  margin-bottom: 0.5em;
   color: var(--color-text);
+}
+.dialog-box .dialog-header {
+  margin-bottom: 0.5em;
 }
 .confirm-dialog .confirm-dialog-header span {
   display: flex;
@@ -55,6 +59,37 @@
   flex-flow: column nowrap;
   align-items: stretch;
   gap: 0.5em;
+}
+.dialog-box .form .check-list-input-wrapper,
+.check-list-item {
+  display: flex;
+  align-items: center;
+}
+.dialog-box .form .check-list-input-wrapper span,
+.check-list-item span:last-child {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog-box .form .check-list-input-wrapper span .icon {
+  background-color: var(--color-foreground);
+  border-radius: 50%;
+}
+.check-list-item span:last-child {
+  color: var(--color-primary);
+}
+.dialog-box .form .check-list-input-wrapper input {
+  width: auto;
+  flex: 1;
+}
+.check-list-item span:first-child {
+  padding: 0;
+  margin-left: 0.8rem;
+}
+.dialog-box .form .btns {
+  align-self: flex-end;
 }
 .confirm-dialog-box {
   display: flex;

@@ -7,12 +7,14 @@ class Todo {
     priority,
     notes = "",
     checkList = [],
+    dateAdded = new Date().toISOString().substring(0, 10),
     id = crypto.randomUUID(),
   }) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
-    this.priority = priority;
+    this.priority = priority.toLowerCase();
+    this.dateAdded = dateAdded;
     this.notes = notes;
     this.checkList = checkList;
     this.id = id;
@@ -34,10 +36,17 @@ class Todo {
   }
 }
 class Project {
-  constructor({ id, title, description, todoList }) {
+  constructor({
+    id,
+    title,
+    description,
+    todoList,
+    dateAdded = new Date().toISOString(),
+  }) {
     this.id = id ? id : crypto.randomUUID();
     this.title = title;
     this.description = description;
+    this.dateAdded = dateAdded;
     if (!todoList) {
       this.todoList = [];
     } else {

@@ -1,5 +1,6 @@
 import projectList from "../projectsList";
 import "../css/project.css";
+import { formatRelative } from "date-fns";
 function renderProject(id) {
   const contentContainer = document.querySelector(".content");
   const project = projectList
@@ -12,15 +13,13 @@ function renderProject(id) {
           <span class="btns">
               <i data-lucide="plus" class="icon"></i>
           </span>
-          <div class="todo-title">Add New Todo</div>
+          <div class="todo-title">Add New Task</div>
         </li>`;
-  project.todoList.toReversed(
-
-    
-  ).forEach((todo) => {
+  project.todoList.toReversed().forEach((todo) => {
     projectTodoList.innerHTML += /*html */ `
         <li class="project-todo" data-id="${todo.id}">
           <div class="todo-title">
+            <span class="priority-span ${todo.priority}"></span>
             ${todo.title}
           </div>
           <div class="todo-btns">
@@ -50,6 +49,24 @@ function renderProject(id) {
                       <i data-lucide="trash-2"></i>
                     </span>
                   </div>
+              </div>
+              <div class="project-info">
+                <div class="project-creation-date">
+                  <span>
+                    Date Added:
+                  </span>
+                  ${formatRelative(project.dateAdded, new Date())}
+                </div>
+                <div class="project-priority-details">
+                  <span>
+                    Priority: 
+                  </span>
+                  <ul>
+                    <li><span class="priority-span high"></span><span>High</span></li>
+                    <li><span class="priority-span medium"></span><span>Medium</span></li>
+                    <li><span class="priority-span low"></span><span>Low</span></li>
+                  </ul>
+                </div>
               </div>
               ${projectTodoList.outerHTML}
             </div>

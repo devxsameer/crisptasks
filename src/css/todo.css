@@ -10,6 +10,7 @@
   flex: 1;
   width: auto;
   height: auto;
+  max-height: 100%;
 }
 .todo-details {
   display: flex;
@@ -33,7 +34,7 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0.5rem 0;
 }
 .todo-details-content-wrapper .btns {
@@ -41,6 +42,25 @@
 }
 .todo-details-content {
   overflow-y: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+.todo-details-title,
+.todo-details-description {
+  border: 2px solid var(--color-border);
+  border-radius: 0.3rem;
+  padding: 0.3em;
+}
+.todo-details-title {
+  font-size: 1.2rem;
+}
+.todo-details-description {
+  min-height: 10ch;
+  color: var(--color-text-light);
+}
+.todo-details-description p {
+  margin-bottom: 0;
 }
 .todo-details-section .details-close-btn {
   display: flex;

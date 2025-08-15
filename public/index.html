@@ -46,8 +46,7 @@
           <ul class="navbar-projects-list"></ul>
         </div>
       </nav>
-      <div class="content">
-      </div>
+      <div class="content"></div>
       <div class="dialog">
         <div class="dialog-box">
           <div class="dialog-header">
@@ -60,7 +59,7 @@
                 type="text"
                 name="title"
                 id="dialog-title"
-                placeholder="Todo App"
+                placeholder="Add Title"
                 required
                 minlength="5"
               />
@@ -70,13 +69,14 @@
               <textarea
                 name="description"
                 id="dialog-description"
+                placeholder="Add Description"
                 required
                 minlength="10"
               ></textarea>
             </fieldset>
             <fieldset class="todo-fieldset hidden">
               <legend>Due Date</legend>
-              <input type="date" name="date" id="dialog-date" required />
+              <input type="date" name="dueDate" id="dialog-date" required />
             </fieldset>
             <fieldset class="todo-fieldset hidden">
               <legend>Priority</legend>
@@ -87,8 +87,35 @@
               </select>
             </fieldset>
             <fieldset class="todo-fieldset hidden">
+              <legend>Check List</legend>
+              <div class="check-list-input-wrapper">
+                <span class="add-to-checklist-btn">
+                  <i data-lucide="plus" class="icon"></i>
+                </span>
+                <input
+                  type="text"
+                  id="dialog-check-input"
+                  placeholder="Add Check"
+                />
+              </div>
+              <ul class="check-list-screen">
+                <li class="check-list-item">
+                  <span>Completed?</span>
+                  <span class="delete-from-checklist-btn">
+                    <i data-lucide="trash" class="icon"></i>
+                  </span>
+                </li>
+              </ul>
+            </fieldset>
+            <fieldset class="todo-fieldset hidden">
               <legend>Notes</legend>
-              <textarea type="notes" name="notes" id="dialog-notes"></textarea>
+              <textarea
+                type="notes"
+                rows="1"
+                name="notes"
+                id="dialog-notes"
+                placeholder="Add Notes [Optional]"
+              ></textarea>
             </fieldset>
             <div class="btns">
               <button type="button" class="btn cancel-btn">Cancel</button>

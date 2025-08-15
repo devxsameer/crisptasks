@@ -23,6 +23,7 @@ const UI = (() => {
   // DOM Variables
   const mainContainer = document.querySelector(".main-container");
   const navbarList = document.querySelector(".navbar-projects-list");
+  const contentContainer = document.querySelector(".content");
 
   // Rendering Navbar Projects
   function renderNavbarList() {
@@ -56,10 +57,14 @@ const UI = (() => {
   // function for rendering appropriate section
   function renderSection(currId) {
     if (currId == "dashboard") renderDashboard();
-    else if (currId == "today") console.log("pokemon");
-    else if (currId == "upcoming") console.log("pokemon");
-    else if (currId == "completed") console.log("pokemon");
+    else if (currId == "today") contentContainer.innerHTML = "today";
+    else if (currId == "upcoming") contentContainer.innerHTML = "upcoming";
+    else if (currId == "completed") contentContainer.innerHTML = "completed";
     else renderProject(currId);
+    refreshIcons();
+  }
+  // function to refresh icons
+  function refreshIcons() {
     createIcons({
       icons: {
         Bolt,
@@ -87,6 +92,7 @@ const UI = (() => {
     handleSectionChange,
     renderSection,
     changeNavbar,
+    refreshIcons,
   };
 })();
 export default UI;

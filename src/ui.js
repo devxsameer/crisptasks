@@ -1,6 +1,7 @@
 import projectList from "./projectsList.js";
 import renderDashboard from "./components/dashboard.js";
 import renderProject from "./components/project.js";
+import { getHours } from "date-fns";
 // Importing Icons
 import {
   createIcons,
@@ -23,7 +24,6 @@ const UI = (() => {
   // DOM Variables
   const mainContainer = document.querySelector(".main-container");
   const navbarList = document.querySelector(".navbar-projects-list");
-  const contentContainer = document.querySelector(".content");
 
   // Rendering Navbar Projects
   function renderNavbarList() {
@@ -57,9 +57,6 @@ const UI = (() => {
   // function for rendering appropriate section
   function renderSection(currId) {
     if (currId == "dashboard") renderDashboard();
-    else if (currId == "today") contentContainer.innerHTML = "today";
-    else if (currId == "upcoming") contentContainer.innerHTML = "upcoming";
-    else if (currId == "completed") contentContainer.innerHTML = "completed";
     else renderProject(currId);
     refreshIcons();
   }
@@ -87,12 +84,27 @@ const UI = (() => {
   function changeNavbar() {
     mainContainer.classList.toggle("navbar-changed");
   }
+  // function to get greeting
+  function getGreeting() {
+    const hour = getHours(new Date());
+
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 17) {
+      return "Good Afternoon";
+    } else if (hour < 21) {
+      return "Good Evening";
+    } else {
+      return "Good Night";
+    }
+  }
   return {
     renderNavbarList,
     handleSectionChange,
     renderSection,
     changeNavbar,
     refreshIcons,
+    getGreeting,
   };
 })();
 export default UI;

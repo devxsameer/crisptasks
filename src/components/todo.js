@@ -44,16 +44,18 @@ const TodoDetails = (function () {
       todoDetailsSection.classList.add("active");
       toActiveTodo.classList.add("active");
     }
-    let checkList = document.createElement("ul");
+    const checkList = document.createElement("ul");
     checkList.classList.add("todo-details-check-list");
     currTodo.checkList.forEach((element) => {
+      const checkboxId = `${element.id}`;
       const li = document.createElement("li");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
+      checkbox.id = checkboxId;
       checkbox.checked = element.done;
       const label = document.createElement("label");
       label.textContent = element.task;
-
+      label.setAttribute("for", checkboxId);
       li.appendChild(checkbox);
       li.appendChild(label);
       checkList.appendChild(li);
@@ -82,7 +84,12 @@ const TodoDetails = (function () {
             </div>
             <div class="todo-details-check-list-wrapper">
               <div class="todo-details-check-list-title"><h4>Check List:</h4></div>
-              ${checkList.outerHTML}
+            </div>
+            <div class="todo-details-notes">
+              <h4>Notes: </h4>
+              <p>
+                ${currTodo.notes}
+              </p>
             </div>
         </div>
         <div class="btns">
@@ -98,6 +105,10 @@ const TodoDetails = (function () {
       </div>
     </div>
     `;
+    const todoDetailsListWrapper = document.querySelector(
+      ".todo-details-check-list-wrapper"
+    );
+    todoDetailsListWrapper.appendChild(checkList);
     createIcons({
       icons: {
         Bolt,
@@ -120,7 +131,17 @@ const TodoDetails = (function () {
     );
     checkBoxes.forEach((checkBox) => {
       checkBox.addEventListener("change", (e) => {
-        console.log(e.target.checked);
+        projectList.changeCheckStatus(
+          mainContainer.dataset.id,
+          id,
+          e.target.id
+        );
+        const currTodoLi = document.querySelector(`li[data-id="${id}"]`);
+        if (currTodo.done) {
+          currTodoLi.classList.add("done");
+        } else {
+          currTodoLi.classList.remove("done");
+        }
       });
     });
   }

@@ -94,7 +94,6 @@ const LocalStorage = (() => {
       ],
     },
   ];
-
   function setData(data) {
     localStorage.setItem("crispTasks", JSON.stringify(data));
     localStorageData = data;
@@ -107,9 +106,19 @@ const LocalStorage = (() => {
     }
     return localStorageData;
   }
+  function setName(name) {
+    localStorage.setItem("userName", name);
+  }
+  function getName() {
+    if (localStorage.getItem("userName")) {
+      return localStorage.getItem("userName");
+    } else return false;
+  }
   return {
     setData,
     getData,
+    setName,
+    getName,
   };
 })();
 export default LocalStorage;

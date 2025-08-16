@@ -1,14 +1,21 @@
 import projectList from "./projectsList";
 import UI from "./ui";
 import "./css/dialog.css";
+import { el } from "date-fns/locale";
+import LocalStorage from "./localstorage";
 
 const Dialog = (function () {
   const mainContainer = document.querySelector(".main-container");
   const dialogContainer = document.querySelector(".dialog");
   const confirmDialogContainer = document.querySelector(".confirm-dialog");
+  const initialDialogContainer = document.querySelector(".initial-dialog");
   const dialogForm = document.querySelector(".dialog form");
+  const initialDialogForm = document.querySelector(".initial-dialog form");
   const dialogHeadingSpan = document.querySelector(
     ".dialog .dialog-header span"
+  );
+  const initialDialogSpan = document.querySelector(
+    ".initial-dialog .initial-dialog-header span"
   );
   const checkListScreen = document.querySelector(".check-list-screen");
   // Function to render Form dialog
@@ -65,7 +72,7 @@ const Dialog = (function () {
       dialogForm.notes.value = currData.notes;
       checkListScreen.innerHTML = "";
       currData.checkList.forEach((checkListItem) =>
-        createCheckListItem(checkListItem.task)
+        createCheckListItem(checkListItem.task, checkListItem.done)
       );
       UI.refreshIcons();
     }
@@ -75,16 +82,17 @@ const Dialog = (function () {
   function addToChecklist() {
     const checkInput = document.querySelector("#dialog-check-input");
     if (checkInput.value) {
-      createCheckListItem(checkInput.value);
+      createCheckListItem(checkInput.value, false);
       UI.refreshIcons();
       checkInput.value = "";
     }
   }
-  function createCheckListItem(value) {
+  function createCheckListItem(value, done) {
     const checkNode = document.createElement("li");
     checkNode.classList.add("check-list-item");
     const mainSpan = document.createElement("span");
     mainSpan.innerText = value;
+    mainSpan.dataset.done = done;
     checkNode.append(mainSpan);
     const deleteCheckBtn = document.createElement("span");
     deleteCheckBtn.classList.add("delete-from-checklist-btn");
@@ -112,7 +120,10 @@ const Dialog = (function () {
       data.checkList.push({ task: "Completed?", done: false });
     }
     checkList.forEach((element) => {
-      data.checkList.push({ task: element.innerText, done: false });
+      data.checkList.push({
+        task: element.innerText,
+        done: element.dataset.done == "true" ? true : false,
+      });
     });
     if (data.title.length >= 5 && data.description.length >= 10) {
       if (mode == "Project") {
@@ -162,6 +173,30 @@ const Dialog = (function () {
   function closeConfirmDialog() {
     confirmDialogContainer.classList.remove("active");
   }
+  // Function to render initial dialog
+  function renderInitialDialog(mode) {
+    if (!LocalStorage.getName()) {
+      initialDialogSpan.innerText = UI.getGreeting();
+      initialDialogContainer.classList.add("active");
+    } else if (mode == "EditName") {
+      initialDialogSpan.innerText = "Edit Name";
+      initialDialogForm.name.value = LocalStorage.getName();
+      initialDialogContainer.classList.add("active");
+    } else {
+      UI.renderSection("dashboard");
+    }
+  }
+  // Function to handle initial dialog submit
+  function handleInitialDialogSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(initialDialogForm);
+    const data = Object.fromEntries(formData.entries());
+    if (data.name != "" && data.name) {
+      LocalStorage.setName(data.name);
+      UI.renderSection("dashboard");
+      initialDialogContainer.classList.remove("active");
+    }
+  }
   return {
     renderDialog,
     closeDialog,
@@ -170,6 +205,8 @@ const Dialog = (function () {
     handleSubmit,
     addToChecklist,
     handleConfirm,
+    renderInitialDialog,
+    handleInitialDialogSubmit,
   };
 })();
 export default Dialog;

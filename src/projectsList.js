@@ -16,8 +16,20 @@ class Todo {
     this.priority = priority.toLowerCase();
     this.dateAdded = dateAdded;
     this.notes = notes;
-    this.checkList = checkList;
+    this.checkList = checkList.map((element) => {
+      return {
+        task: element.task,
+        done: element.done,
+        id: element.id ? element.id : crypto.randomUUID(),
+      };
+    });
     this.id = id;
+  }
+  get done() {
+    return (
+      this.checkList.length > 0 &&
+      this.checkList.every((item) => item.done === true)
+    );
   }
   editDetails({
     title,
@@ -32,7 +44,20 @@ class Todo {
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
-    this.checkList = checkList;
+    this.checkList = checkList.map((element) => {
+      return {
+        task: element.task,
+        done: element.done,
+        id: element.id ? element.id : crypto.randomUUID(),
+      };
+    });
+  }
+  changeCheckStatus(id) {
+    this.checkList.forEach((checkItem) => {
+      if (checkItem.id == id) {
+        checkItem.done = !checkItem.done;
+      }
+    });
   }
 }
 class Project {
@@ -120,6 +145,13 @@ const projectList = (function () {
     const currProject = list.find((project) => project.id == projectId);
     return currProject.todoList.find((todo) => todo.id == todoId);
   }
+  function changeCheckStatus(projectId, todoId, id) {
+    const currProject = list.find((project) => project.id == projectId);
+    currProject.todoList
+      .find((todo) => todo.id == todoId)
+      .changeCheckStatus(id);
+    LS.setData(list);
+  }
   return {
     getProjectList,
     setProjectsList,
@@ -131,6 +163,7 @@ const projectList = (function () {
     editTodoInProject,
     addTodoInProject,
     getTodoFromProject,
+    changeCheckStatus,
   };
 })();
 export default projectList;

@@ -75,7 +75,17 @@
 }
 .project-todo:first-child {
   justify-content: center;
+  background-color: var(--color-primary-light);
   gap: 0.2rem;
+  padding: 0;
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 0.4rem 0.5rem;
+  border: 2px solid var(--color-primary-light);
+  border-bottom: 2px solid var(--color-primary-medium);
+}
+.project-todo:first-child:hover {
+  background-color: initial;
 }
 .project-todo {
   display: flex;
@@ -90,6 +100,9 @@
   white-space: normal;
   border-radius: 0.3rem 0.3rem 0 0;
   font-size: 1rem;
+}
+.project-todo.done {
+  text-decoration: line-through;
 }
 .project-todo:hover,
 .project-todo.active {

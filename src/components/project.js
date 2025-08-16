@@ -10,14 +10,13 @@ function renderProject(id) {
   projectTodoList.classList.add("project-todo-list");
   projectTodoList.innerHTML += /*html */ `
         <li class="project-todo add-new-todo">
-          <span class="btns">
-              <i data-lucide="plus" class="icon"></i>
-          </span>
-          <div class="todo-title">Add New Task</div>
+            <div class="todo-title">Add New Task</div>
         </li>`;
   project.todoList.toReversed().forEach((todo) => {
     projectTodoList.innerHTML += /*html */ `
-        <li class="project-todo" data-id="${todo.id}">
+        <li class='project-todo ${todo.done ? "done" : ""}' data-id="${
+      todo.id
+    }">
           <div class="todo-title">
             <span class="priority-span ${todo.priority}"></span>
             ${todo.title}

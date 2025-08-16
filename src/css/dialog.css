@@ -1,5 +1,6 @@
 .dialog,
-.confirm-dialog {
+.confirm-dialog,
+.initial-dialog {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -12,15 +13,18 @@
   transition: background 300ms ease-in-out;
 }
 .dialog.active,
-.confirm-dialog.active {
+.confirm-dialog.active,
+.initial-dialog.active {
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 .dialog-box,
-.confirm-dialog-box {
+.confirm-dialog-box,
+.initial-dialog-box {
   width: min(90vw, 500px);
   height: 0;
-  overflow-x: auto;
+  overflow: hidden;
+  overflow-y: auto;
   max-height: 90vh;
   background-color: var(--color-background);
   transition: all 100ms ease-in;
@@ -28,12 +32,14 @@
   padding: 1rem;
 }
 .dialog.active .dialog-box,
-.confirm-dialog.active .confirm-dialog-box {
+.confirm-dialog.active .confirm-dialog-box,
+.initial-dialog.active .initial-dialog-box {
   height: initial;
 }
 
 .dialog-box .dialog-header span,
-.confirm-dialog-header span {
+.confirm-dialog-header span,
+.initial-dialog-header span {
   font-weight: 600;
   font-size: 1.5rem;
   color: var(--color-text);
@@ -54,7 +60,12 @@
   color: var(--color-text-light);
   margin: 0.3em;
 }
-.dialog-box .form {
+.initial-dialog-header p {
+  margin: 0;
+  margin: 0.2em 0.5em;
+}
+.dialog-box .form,
+.initial-dialog .form {
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
@@ -88,7 +99,8 @@
   padding: 0;
   margin-left: 0.8rem;
 }
-.dialog-box .form .btns {
+.dialog-box .form .btns,
+.initial-dialog .form .btns {
   align-self: flex-end;
 }
 .confirm-dialog-box {

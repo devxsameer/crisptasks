@@ -13,10 +13,15 @@ window.addEventListener("DOMContentLoaded", () => {
   const dialogBox = document.querySelector(".dialog-box");
   const confirmDialogBox = document.querySelector(".confirm-dialog-box");
   const dialogForm = document.querySelector(".dialog form");
+  const initialForm = document.querySelector(".initial-dialog form");
   // Loading data
   projectList.setProjectsList();
   UI.renderNavbarList(projectList.getProjectList());
-  UI.renderSection("dashboard");
+  // for rendering and closing initial dialog
+  Dialog.renderInitialDialog("SetName");
+  initialForm.addEventListener("submit", (e) => {
+    Dialog.handleInitialDialogSubmit(e);
+  });
   // Adding Event Listeners
   dialogForm.addEventListener("submit", (e) => {
     Dialog.handleSubmit(e);
@@ -40,6 +45,9 @@ window.addEventListener("DOMContentLoaded", () => {
         e.target.closest(".todo-edit-btn").dataset.id
       );
     }
+    // on clicking dashboard setting
+    if (e.target.closest(".dashboard-settings"))
+      Dialog.renderInitialDialog("EditName");
     // For checklist in dialog
     if (e.target.closest(".add-to-checklist-btn")) Dialog.addToChecklist();
     if (e.target.closest(".delete-from-checklist-btn"))

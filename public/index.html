@@ -25,15 +25,6 @@
             <li class="navbar-func-item active-section" data-nav="dashboard">
               <i data-lucide="layout-dashboard"></i>Dashboard
             </li>
-            <li class="navbar-func-item" data-nav="today">
-              <i data-lucide="list-todo"></i>Today
-            </li>
-            <li class="navbar-func-item" data-nav="upcoming">
-              <i data-lucide="calendar-clock"></i>Upcoming
-            </li>
-            <li class="navbar-func-item" data-nav="completed">
-              <i data-lucide="calendar-check-2"></i>Completed
-            </li>
           </ul>
         </div>
         <div class="navbar-projects navbar-to-hide navbar-section">
@@ -100,7 +91,7 @@
               </div>
               <ul class="check-list-screen">
                 <li class="check-list-item">
-                  <span>Completed?</span>
+                  <span data-done="false">Completed?</span>
                   <span class="delete-from-checklist-btn">
                     <i data-lucide="trash" class="icon"></i>
                   </span>
@@ -143,6 +134,29 @@
               Confirm
             </button>
           </div>
+        </div>
+      </div>
+      <div class="initial-dialog">
+        <div class="initial-dialog-box">
+          <div class="initial-dialog-header">
+            <span></span>
+          </div>
+          <form class="form">
+            <fieldset>
+              <legend>Name</legend>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter Your Name"
+              />
+            </fieldset>
+            <div class="btns">
+              <button type="submit" class="btn btn-primary set-initial-btn">
+                Confirm
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

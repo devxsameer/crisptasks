@@ -128,6 +128,7 @@ const Dialog = (function () {
     if (data.title.length >= 5 && data.description.length >= 10) {
       if (mode == "Project") {
         projectList.addProject(data);
+        UI.renderSection(mainContainer.dataset.id);
         UI.renderNavbarList();
       } else if (mode == "ProjectEdit") {
         projectList.editProject(mainContainer.dataset.id, data);
